@@ -3,13 +3,8 @@ FROM node:18.16.1 as builder
 
 WORKDIR /usr/src/app
 
-COPY package.json .
-
-RUN npm install
-
 COPY . .
 
-RUN mv .env-example .env
 RUN npm run build
 
 # Prod

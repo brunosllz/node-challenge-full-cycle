@@ -1,16 +1,17 @@
 # build
 FROM node:18.16.1 as builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY . .
 
+RUN npm install
 RUN npm run build
 
 # Prod
 FROM node:18.16.1-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 ENV DOCKERIZE_VERSION v0.7.0
 
@@ -19,6 +20,6 @@ RUN apk update --no-cache \
   && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
   && apk del wget
 
-COPY --from=builder /usr/src/app .
+COPY --from=builder /app .
 
 EXPOSE 3333

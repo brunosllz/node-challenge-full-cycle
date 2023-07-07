@@ -1,9 +1,10 @@
-version: '3'
+version: '3.7'
 
 services:
   database:
-    image: mysql:latest
-    container_name: mysql-db
+    build:
+      context: mysql
+    container_name: database
     restart: always
     expose:
       - 3306
@@ -12,31 +13,30 @@ services:
       MYSQL_ROOT_PASSWORD: docker
       MYSQL_DATABASE: fullcycle
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mysql/volume:/var/lib/mysql
     networks:
       - nodenet
 
   app:
     build:
       context: app
-    image: brunosllz/fullcycle-node-app:prod
-    container_name: app-node
-    entrypoint: dockerize -wait tcp://database:3306 -timeout 20s docker-entrypoint.sh
+    container_name: app
+    entrypoint: dockerize -wait tcp://database:3306 -timeout 10s docker-entrypoint.sh
     tty: true
+    restart: always
     volumes:
       - ./app:/usr/src/app
     expose:
       - 3333
     depends_on:
       - database
-    command: npm run start
     networks:
       - nodenet
+    command: npm run start
 
   nginx:
     build:
       context: nginx
-    image: brunosllz/fullcycle-nginx:prod
     container_name: nginx
     tty: true
     ports:

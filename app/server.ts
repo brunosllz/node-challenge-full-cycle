@@ -16,16 +16,12 @@ app.get('/', async (req, res) => {
 
   const content = `
     <h1>Full Cycle Rocks!</h1>
-    <table bgcolor="#000000" cellpadding="5">
-      <tbody>
-        ${fetchManyPeoples.map(people => {
+    <ul>
+    ${fetchManyPeoples.map(people => {
     return `
-          <tr bgcolor="#ffffff">
-            <td>${people.name}</td>
-          </tr>
-        `}).join('')}
-      </tbody>
-    </table>
+              <li>${people.name}</li>
+          `}).join('')}
+    </ul>
   `
   res.send(content)
 })

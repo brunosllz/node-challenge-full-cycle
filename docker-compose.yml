@@ -6,8 +6,7 @@ services:
       context: mysql
     container_name: database
     restart: always
-    expose:
-      - 3306
+
     tty: true
     environment:
       MYSQL_ROOT_PASSWORD: docker
@@ -26,8 +25,6 @@ services:
     restart: always
     volumes:
       - ./app:/usr/src/app
-    expose:
-      - 3333
     depends_on:
       - database
     networks:

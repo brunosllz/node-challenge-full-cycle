@@ -17,7 +17,6 @@ app.get('/', async (req, res) => {
   const content = `
     <h1>Full Cycle Rocks!</h1>
     <table bgcolor="#000000" cellpadding="5">
-    <thead></thead>
       <tbody>
         ${fetchManyPeoples.map(people => {
     return `
